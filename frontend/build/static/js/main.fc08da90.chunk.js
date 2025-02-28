@@ -1,0 +1,2 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[0],{13:function(e,n,t){"use strict";t.r(n);var a=t(0),r=t.n(a),l=t(3);var o=function(){return r.a.createElement("div",null,r.a.createElement("h1",null,"Real-Time Chat App"))};t.n(l).a.createRoot(document.getElementById("root")).render(r.a.createElement(r.a.StrictMode,null,r.a.createElement(o,null)))},4:function(e,n,t){e.exports=t(13)}},[[4,1,2]]]);
+//# sourceMappingURL=main.fc08da90.chunk.js.map

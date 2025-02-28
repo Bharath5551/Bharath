@@ -1,0 +1,27 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Creative Chat</title><script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script><style>body{font-family:Arial,sans-serif;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;display:flex;flex-direction:column;align-items:center;height:100vh;justify-content:center}#chat-container{width:90%;max-width:500px;background:rgba(0,0,0,.7);padding:20px;border-radius:10px}#chat-box{height:300px;overflow-y:auto;border-bottom:2px solid #fff;padding:10px;background:rgba(0,0,0)}#message{width:75%;padding:10px;border:none;border-radius:5px}#sendBtn{padding:10px;background:#ff9800;border:none;color:#fff;cursor:pointer;border-radius:5px}.message{padding:5px;margin:5px 0;border-radius:5px}.user-message{text-align:right}.other-message{text-align:left}#users-box{background:rgba(0,0,0,.5);padding:10px;margin-top:10px;border-radius:5px}</style></head><body><div id="chat-container"><h2>Creative Chat</h2><div id="chat-box"></div><input id="message" placeholder="Type a message..."> <button id="sendBtn" onclick="sendMessage()">Send</button><div id="users-box"><h3>Online Users</h3><ul id="users-list"></ul></div></div><script>const socket = io("http://172.20.10.7:3000");
+        let username = prompt("Enter your name:");
+        while (!username) username = prompt("Enter your name:");
+        socket.emit("set username", username);
+
+        function sendMessage() {
+            const input = document.getElementById("message");
+            const message = input.value.trim();
+            if (message) {
+                socket.emit("chat message", { username, message });
+                input.value = "";
+            }
+        }
+
+        socket.on("chat message", (data) => {
+            const chatBox = document.getElementById("chat-box");
+            const msgDiv = document.createElement("div");
+            msgDiv.className = "message " + (data.username === username ? "user-message" : "other-message");
+            msgDiv.innerHTML = `<strong>${data.username}:</strong> ${data.message}`;
+            chatBox.appendChild(msgDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        });
+
+        socket.on("user update", (users) => {
+            const usersList = document.getElementById("users-list");
+            usersList.innerHTML = users.map((user, index) => `<li>${index + 1}. ${user}</li>`).join(" ");
+        });</script><script>!function(l){function e(e){for(var r,t,n=e[0],o=e[1],u=e[2],f=0,i=[];f<n.length;f++)t=n[f],p[t]&&i.push(p[t][0]),p[t]=0;for(r in o)Object.prototype.hasOwnProperty.call(o,r)&&(l[r]=o[r]);for(s&&s(e);i.length;)i.shift()();return c.push.apply(c,u||[]),a()}function a(){for(var e,r=0;r<c.length;r++){for(var t=c[r],n=!0,o=1;o<t.length;o++){var u=t[o];0!==p[u]&&(n=!1)}n&&(c.splice(r--,1),e=f(f.s=t[0]))}return e}var t={},p={1:0},c=[];function f(e){if(t[e])return t[e].exports;var r=t[e]={i:e,l:!1,exports:{}};return l[e].call(r.exports,r,r.exports,f),r.l=!0,r.exports}f.m=l,f.c=t,f.d=function(e,r,t){f.o(e,r)||Object.defineProperty(e,r,{enumerable:!0,get:t})},f.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},f.t=function(r,e){if(1&e&&(r=f(r)),8&e)return r;if(4&e&&"object"==typeof r&&r&&r.__esModule)return r;var t=Object.create(null);if(f.r(t),Object.defineProperty(t,"default",{enumerable:!0,value:r}),2&e&&"string"!=typeof r)for(var n in r)f.d(t,n,function(e){return r[e]}.bind(null,n));return t},f.n=function(e){var r=e&&e.__esModule?function(){return e.default}:function(){return e};return f.d(r,"a",r),r},f.o=function(e,r){return Object.prototype.hasOwnProperty.call(e,r)},f.p="/";var r=window.webpackJsonp=window.webpackJsonp||[],n=r.push.bind(r);r.push=e,r=r.slice();for(var o=0;o<r.length;o++)e(r[o]);var s=n;a()}([])</script><script src="/static/js/2.ae026ab9.chunk.js"></script><script src="/static/js/main.fc08da90.chunk.js"></script></body></html>
